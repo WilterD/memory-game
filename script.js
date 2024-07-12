@@ -1,13 +1,13 @@
 
 const ODS = [
-    { id: 1, name: "Fin de la Pobreza", image: "./img/1.png" },
-    { id: 2, name: "Hambre Cero",  image: "./img/2.png"  },
-    { id: 3, name: "Salud y Bienestar",  image: "./img/3.png"},
-    { id: 4, name: "Educación de Calidad",  image: "./img/4.png"},
-    { id: 5, name: "Igualdad de Género",  image: "./img/5.png"},
-    { id: 6, name: "Agua Limpia y Saneamiento", color: "#26bde2", image: "./img/6.png" },
-    { id: 7, name: "Energía Asequible y No Contaminante", color: "#fcc30b", image: "./img/7.png" },
-    { id: 8, name: "Trabajo Decente y Crecimiento Económico", color: "#a21942", image: "./img/8.png" }
+    { id: 1, name: "Fin de la Pobreza", image: "./img/ODS1.jpg" },
+    { id: 2, name: "Hambre Cero",  image: "./img/ODS2.jpg"  },
+    { id: 3, name: "Salud y Bienestar",  image: "./img/ODS3.jpg"},
+    { id: 4, name: "Educación de Calidad",  image: "./img/ODS4.jpg"},
+    { id: 5, name: "Igualdad de Género",  image: "./img/ODS5.jpg"},
+    { id: 6, name: "Agua Limpia y Saneamiento", color: "#26bde2", image: "./img/ODS6.jpg" },
+    { id: 7, name: "Energía Asequible y No Contaminante", color: "#fcc30b", image: "./img/ODS7.jpg" },
+    { id: 8, name: "Trabajo Decente y Crecimiento Económico", color: "#a21942", image: "./img/ODS8.jpg" }
 ];
 
     let firstCard = null;
@@ -22,16 +22,15 @@ const ODS = [
         startGame();
         $('#restart').click(restartGame);
     });
-
     function startGame() {
         const cards = [...ODS, ...ODS];
         console.log(cards[0].image);
         cards.sort(() => 0.5 - Math.random());
         $('#game-board').empty();
-    
+
         cards.forEach(card => {
             console.log(card.image);
-    
+
             const cardElement = $(`
                 <div class="card">
                     <div class="card-inner" data-id="${card.id}">
@@ -44,13 +43,20 @@ const ODS = [
             cardElement.click(handleCardClick);
         });
 
-        matches = 0;
-        seconds = 0;
-        score = 0;
-        $('#timer').text(seconds);
-        $('#score').text(score);
-        clearInterval(timer);
-        timer = setInterval(updateTimer, 1000);
+        setTimeout(() => {
+            $('.card').addClass('flipped');
+            setTimeout(() => {
+                $('.card').removeClass('flipped');
+                resetBoard();
+                matches = 0;
+                seconds = 0;
+                score = 0;
+                $('#timer').text(seconds);
+                $('#score').text(score);
+                clearInterval(timer);
+                timer = setInterval(updateTimer, 1000);
+            }, 1500);
+        }, 1000);
     }
 
     function restartGame() {
@@ -90,6 +96,7 @@ const ODS = [
                 alert(`¡Felicidades! Has encontrado todos los pares en ${seconds} segundos con una puntuación de ${score}.`);
             }
         } else {
+            if (score > 0)
             score -= 2; 
             $('#score').text(score);
             setTimeout(() => {
