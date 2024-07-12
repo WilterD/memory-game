@@ -58,6 +58,7 @@
         <div id="game-board" class="grid grid-cols-4 gap-4 mb-8"></div>
         <div class="text-center">
             <p>Tiempo: <span id="timer">0</span> segundos</p>
+            <p>Puntuación: <span id="score">0</span></p>
             <button id="restart" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded">Reiniciar Juego</button>
         </div>
     </div>
@@ -81,6 +82,7 @@
         let matches = 0;
         let timer;
         let seconds = 0;
+        let score = 0;
 
         $(document).ready(function() {
             startGame();
@@ -107,7 +109,9 @@
 
             matches = 0;
             seconds = 0;
+            score = 0;
             $('#timer').text(seconds);
+            $('#score').text(score);
             clearInterval(timer);
             timer = setInterval(updateTimer, 1000);
         }
@@ -141,12 +145,16 @@
 
             if (firstCardId === secondCardId) {
                 matches++;
+                score += 10; // Aumenta la puntuación en 10 por cada par encontrado
+                $('#score').text(score);
                 resetBoard();
                 if (matches === ODS.length) {
                     clearInterval(timer);
-                    alert(`¡Felicidades! Has encontrado todos los pares en ${seconds} segundos.`);
+                    alert(`¡Felicidades! Has encontrado todos los pares en ${seconds} segundos con una puntuación de ${score}.`);
                 }
             } else {
+                score -= 2; // Resta 2 puntos por cada par incorrecto
+                $('#score').text(score);
                 setTimeout(() => {
                     firstCard.removeClass('flipped');
                     secondCard.removeClass('flipped');
